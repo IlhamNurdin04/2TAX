@@ -7,6 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.pmob.projectakhirpemrogramanmobile.databinding.ActivityDetailBookBinding
+import java.text.NumberFormat
+import java.util.Locale
+
 
 class DetailBookActivity : AppCompatActivity() {
 
@@ -17,6 +20,13 @@ class DetailBookActivity : AppCompatActivity() {
 
         binding = ActivityDetailBookBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.tvSeeAllStores.setOnClickListener {
+            startActivity(
+                Intent(this@DetailBookActivity, StoreMapActivity::class.java)
+            )
+        }
+
 
         // Ambil data dari Intent
         val title = intent.getStringExtra("BOOK_TITLE") ?: "Unknown"
@@ -111,16 +121,25 @@ class DetailBookActivity : AppCompatActivity() {
                 Toast.LENGTH_SHORT
             ).show()
         }
+        val rateUsdToIdr = 16000
+        val priceIdr = price * rateUsdToIdr
 
-        btnBuy.text = "Buy $${String.format("%.2f", price)}"
+        val rupiah = NumberFormat
+            .getCurrencyInstance(Locale("in", "ID"))
+            .format(priceIdr)
+
+        btnBuy.text = "Beli $rupiah"
+
         btnBuy.setOnClickListener {
             Intent(this@DetailBookActivity, BuyActivity::class.java).apply {
                 putExtra("BOOK_TITLE", title)
-                putExtra("BOOK_PRICE", price)
+                putExtra("BOOK_PRICE", priceIdr) // ✅ INI WAJIB
                 putExtra("BOOK_COVER", coverUrl)
                 startActivity(this)
             }
         }
+
+
 
         btnReadNow.setOnClickListener {
             Intent(this@DetailBookActivity, PreviewActivity::class.java).apply {

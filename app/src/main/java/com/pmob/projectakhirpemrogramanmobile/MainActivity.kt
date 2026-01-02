@@ -36,6 +36,10 @@ class MainActivity : AppCompatActivity() {
                     loadFragment(HomeFragment())
                     true
                 }
+                R.id.nav_search -> {
+                    loadFragment(HomeFragment())
+                    true
+                }
                 R.id.nav_profile -> {
                     loadFragment(ProfileFragment())
                     true

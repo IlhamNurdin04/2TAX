@@ -91,6 +91,9 @@ class BuyActivity : AppCompatActivity() {
     // ================== FORMAT RUPIAH ==================
     private fun formatRupiah(value: Double): String {
         val formatter = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
+        formatter.maximumFractionDigits = 0
+        formatter.minimumFractionDigits = 0
         return formatter.format(value)
     }
+
 }
