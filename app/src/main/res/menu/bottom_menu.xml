@@ -7,8 +7,8 @@
 
     <item
         android:id="@+id/nav_search"
-        android:icon="@drawable/ic_map"
-        android:title="Map" />
+        android:icon="@drawable/ic_koleksi"
+        android:title="Koleksi" />
 
     <item
         android:id="@+id/nav_history"
