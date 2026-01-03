@@ -27,7 +27,8 @@ class PaymentActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPaymentBinding
 
-    private var selectedMethod: String? = null
+    // Metode pembayaran tidak perlu dipilih lagi
+    // private var selectedMethod: String? = null
     private var bookTitle = ""
     private var bookPrice = 0.0
     private var bookCover: String? = null
@@ -58,56 +59,18 @@ class PaymentActivity : AppCompatActivity() {
             .error(R.drawable.ic_book_placeholder)
             .into(binding.ivCover)
 
-        // ===== Klik metode pembayaran =====
-        binding.layoutTransfer.setOnClickListener {
-            binding.rbTransfer.isChecked = true
-            selectedMethod = "Transfer Bank"
-            Log.d("PaymentActivity", "Transfer selected: $selectedMethod")
-        }
+        // ===== Klik metode pembayaran - TIDAK PERLU LAGI =====
+        // Hapus semua listener untuk payment method
 
-        binding.layoutEwallet.setOnClickListener {
-            binding.rbEwallet.isChecked = true
-            selectedMethod = "E-Wallet"
-            Log.d("PaymentActivity", "E-Wallet selected: $selectedMethod")
-        }
-
-        binding.rgPaymentMethod.setOnCheckedChangeListener { _, checkedId ->
-            resetHighlight()
-            when (checkedId) {
-                R.id.rbTransfer -> {
-                    selectedMethod = "Transfer Bank"
-                    binding.layoutTransfer.setBackgroundResource(R.drawable.bg_card_selected)
-                    Log.d("PaymentActivity", "RadioGroup: Transfer selected")
-                }
-                R.id.rbEwallet -> {
-                    selectedMethod = "E-Wallet"
-                    binding.layoutEwallet.setBackgroundResource(R.drawable.bg_card_selected)
-                    Log.d("PaymentActivity", "RadioGroup: E-Wallet selected")
-                }
-            }
-        }
-
-        // ===== Tombol Bayar =====
+        // ===== Tombol Bayar - Langsung proses =====
         binding.btnPayNow.setOnClickListener {
-            Log.d("PaymentActivity", "Button clicked, selectedMethod: $selectedMethod")
-
-            if (selectedMethod == null) {
-                Toast.makeText(
-                    this,
-                    "Pilih metode pembayaran terlebih dahulu",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                processPayment()
-            }
+            Log.d("PaymentActivity", "Button clicked, processing payment...")
+            processPayment()
         }
     }
 
-    // ================== RESET CARD ==================
-    private fun resetHighlight() {
-        binding.layoutTransfer.setBackgroundResource(R.drawable.bg_card)
-        binding.layoutEwallet.setBackgroundResource(R.drawable.bg_card)
-    }
+    // ================== RESET CARD - TIDAK PERLU LAGI ==================
+    // Hapus fungsi ini karena tidak ada pilihan metode lagi
 
     // ================== STEP 1: PROSES PAYMENT ==================
     private fun processPayment() {
@@ -212,7 +175,7 @@ class PaymentActivity : AppCompatActivity() {
         orderData["price"] = bookPrice
         orderData["timestamp"] = System.currentTimeMillis()
         orderData["status_pembayaran"] = "pending"
-        orderData["method"] = selectedMethod ?: "-"
+        orderData["method"] = "Midtrans" // Langsung Midtrans, tidak ada pilihan
         orderData["snap_token"] = snapToken
         orderData["redirect_url"] = redirectUrl
 
