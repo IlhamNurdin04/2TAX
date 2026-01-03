@@ -169,11 +169,17 @@ class PaymentActivity : AppCompatActivity() {
             .child(uid)
             .child(currentOrderId ?: return)
 
+        // Format tanggal yang readable
+        val currentTimestamp = System.currentTimeMillis()
+        val dateFormat = java.text.SimpleDateFormat("dd MMMM yyyy, HH:mm:ss", Locale("id", "ID"))
+        val formattedDate = dateFormat.format(java.util.Date(currentTimestamp))
+
         val orderData = HashMap<String, Any>()
         orderData["order_id"] = currentOrderId ?: ""
         orderData["title"] = bookTitle
-        orderData["price"] = bookPrice
-        orderData["timestamp"] = System.currentTimeMillis()
+        orderData["price"] = bookPrice.toInt() // Simpan sebagai Integer, hilangkan desimal
+        orderData["timestamp"] = currentTimestamp // Unix timestamp (untuk sorting)
+        orderData["transaction_date"] = formattedDate // Format readable: "03 Januari 2026, 14:30:45"
         orderData["status_pembayaran"] = "pending"
         orderData["method"] = "Midtrans" // Langsung Midtrans, tidak ada pilihan
         orderData["snap_token"] = snapToken
